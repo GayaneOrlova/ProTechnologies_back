@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-73=e=g=$%c_xa-ml!*-$kqdaac3d^=egh86t7=8tj9ps_ajfhi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # for CORS
+
+CORS_ORIGIN_ALLOW_ALL = True # for CORS
 
 
 # Application definition
@@ -45,9 +47,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     'users',
     'projects',
+    'corsheaders', # for CORS
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.contrib.auth.context_processors.auth', # for CORS
                 'django.contrib.messages.context_processors.messages',
             ],
         },

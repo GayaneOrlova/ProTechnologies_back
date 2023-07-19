@@ -21,6 +21,7 @@ class TechnologyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Technology.objects.all()
     serializer_class = TechnologyReadSerializer
     permission_classes = (permissions.AllowAny,)
+    
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
@@ -50,3 +51,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         return super().get_permissions()
 
+
+
+    
