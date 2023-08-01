@@ -1,6 +1,5 @@
 from rest_framework import permissions, viewsets
-from rest_framework.pagination import PageNumberPagination, OrderedDict
-from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from projects.models import Technology, Project
 from .permissions import IsAuthorOrReadOnly
 from projects.serializers import (
@@ -9,18 +8,6 @@ from projects.serializers import (
     ProjectWriteSerializer,
 )
 
-# class CustomPagination(PageNumberPagination):
-#     def get_paginated_response(self, data):
-#         return Response(OrderedDict([
-#             ("links", {
-#                 'next': self.get_next_link(),
-#                 'previous': self.get_previous_link(),
-#                 # 'offset': self.offset,
-#                 # 'count': self.count
-#             }),
-#             ('results', data),
-#         ]))
- 
 class TechnologyViewSet(viewsets.ReadOnlyModelViewSet):
     """
     List and Retrieve post technologies
