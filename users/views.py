@@ -4,7 +4,6 @@ from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from . import serializers
 from .models import Profile
 
@@ -44,14 +43,11 @@ class UserLoginAPIView(GenericAPIView):
         data = {"user" : serializer.data}
         data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
         return Response(data, status=status.HTTP_200_OK)
-
-
-
+       
 class UserLogoutAPIView(GenericAPIView):
     """
     An endpoint to logout users.
     """
-
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
@@ -97,3 +93,31 @@ class UserAvatarAPIView(RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user.profile
+        
+
+
+ 
+# class TokenAPIView(RetrieveAPIView):
+#     # authentication_classes = [TokenAuthentication]
+
+#     permission_classes = (IsAuthenticated,)
+#     # serializer_class = serializers.CustomUserSerializer
+#     queryset = Profile.objects.all()
+
+#     def get_token(self, request):
+#         data = {"tokens": request.auth, "user": request.user}
+#         return Response(data, status=status.HTTP_200_OK)
+
+
+# class TokenAPIView(GenericAPIView):
+#     # permission_classes = (IsAuthenticated,)
+
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             tokens = request.data.tokens
+            
+#             return Response(status=status.HTTP_205_RESET_CONTENT)
+#         except Exception as e:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+

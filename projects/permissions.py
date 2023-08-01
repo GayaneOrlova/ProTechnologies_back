@@ -4,7 +4,6 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
     """
     Check if authenticated user is author of the post.
     """
-
     def has_permission(self, request, view):
         return request.user.is_authenticated is True
 

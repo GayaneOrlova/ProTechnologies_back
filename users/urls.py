@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-
+from rest_framework.authtoken import views
 from users import views
 
 app_name = "users"
@@ -13,5 +13,6 @@ urlpatterns = [
     path("", views.UserAPIView.as_view(), name="user-info"),
     path("profile/", views.UserProfileAPIView.as_view(), name="user-profile"),
     path("profile/avatar/", views.UserAvatarAPIView.as_view(), name="user-avatar"),
+    path("me/", views.UserAPIView.as_view(), name="tokens"),
 ]
 
