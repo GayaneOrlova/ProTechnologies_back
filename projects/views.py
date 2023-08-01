@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets
 from projects.models import Technology, Project
 from .permissions import IsAuthorOrReadOnly
 # from services import MyPagination
-from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination, BasePagination, OrderedDict
 from rest_framework.response import Response
 from projects.serializers import (
     TechnologyReadSerializer,
@@ -10,12 +10,9 @@ from projects.serializers import (
     ProjectWriteSerializer,
 )
 
-# class MyPagination(LimitOffsetPagination, PageNumberPagination):
-#     page_size = 2
-#     max_page_size = 20
-#     def get_pagination(self, data):
-#         # response = super().get_pagination(data)
-#         # response.data['offset'] = self.get_offset(self.request)
+# class CustomPagination(PageNumberPagination):
+
+#     def get_paginated_response(self, data):
 #         return Response({
 #             'links': {
 #               'next': self.get_next_link(),
@@ -23,9 +20,25 @@ from projects.serializers import (
 #             },
 #             'count': self.page.paginator.count,
 #             'results': data,
-#             'offset': self.get_offset()
-#         })
+#             'offset': self.
 
+#         })
+        
+#         const offset = (page - 1) * 2;
+
+
+class CustomPagination(LimitOffsetPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ("links", {
+                'next': self.get_next_link(),
+                'previous': self.get_previous_link(),
+            }),
+            ('count', self.count),
+            ('results', data),
+            ('offset', self.offset)
+        ]))
+ 
 class TechnologyViewSet(viewsets.ReadOnlyModelViewSet):
     """
     List and Retrieve post technologies
@@ -40,7 +53,7 @@ class ProjectViewSet(viewsets.ModelViewSet,LimitOffsetPagination ):
     CRUD posts
     """
     queryset = Project.objects.all()
-    # pagination_class = MyPagination
+    pagination_class = CustomPagination
     # pagination_class = LimitOffsetPagination
     
     # In order to use different serializers for different 
@@ -61,6 +74,8 @@ class ProjectViewSet(viewsets.ModelViewSet,LimitOffsetPagination ):
         else:
             self.permission_classes = (permissions.AllowAny,)
         return super().get_permissions()
+
+
         
     
 
